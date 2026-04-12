@@ -64,12 +64,13 @@ def get_pog_json(obj: str, year: str) -> str:
         print(f"No json for {obj}")
 
     year = get_UL_year(year) if year == "2018" else year
-    if "2022" in year or "2023" in year:
+    if "2022" in year or "2023" in year or "2024" in year:
         year = {
             "2022": "2022_Summer22",
             "2022EE": "2022_Summer22EE",
             "2023": "2023_Summer23",
             "2023BPix": "2023_Summer23BPix",
+            "2024": "2024_Summer24",
         }[year]
     return f"{pog_correction_path}/POG/{pog_json[0]}/{year}/{pog_json[1]}"
 
@@ -103,23 +104,49 @@ def add_pileup_weight(weights: Weights, year: str, nPU: np.ndarray, dataset: str
         weights.add("pileup", sf)
 
     else:
-        # https://twiki.cern.ch/twiki/bin/view/CMS/LumiRecommendationsRun3
-        values = {}
+        
+        if year == "2024":
+            import json
+            
+            # 直接从Golden JSON文件读取
+            golden_json_path = "/afs/cern.ch/user/j/jinwa/Cert_Collisions2024_378981_386951_Golden.json"  # 改成你的实际路径
+            
+            # jin 调试信息
+            print(f"Loading pileup from Golden JSON: {golden_json_path}")
+            
+            # 对于2024，暂时使用nominal权重为1（如果Golden JSON中没有pileup信息）
+            values = {}
+            values["nominal"] = np.ones_like(nPU, dtype=float)
+            values["up"] = np.ones_like(nPU, dtype=float)
+            values["down"] = np.ones_like(nPU, dtype=float)
+            
+            # jin 调试
+            print(f"Using default pileup weights (all 1.0) for 2024")
+            
+            weights.add("pileup", values["nominal"], values["up"], values["down"])
+        
+        else:
 
-        cset = correctionlib.CorrectionSet.from_file(get_pog_json("pileup", year))
-        corr = {
-            "2018": "Collisions18_UltraLegacy_goldenJSON",
-            "2022": "Collisions2022_355100_357900_eraBCD_GoldenJson",
-            "2022EE": "Collisions2022_359022_362760_eraEFG_GoldenJson",
-            "2023": "Collisions2023_366403_369802_eraBC_GoldenJson",
-            "2023BPix": "Collisions2023_369803_370790_eraD_GoldenJson",
-        }[year]
-        # evaluate and clip up to 10 to avoid large weights
-        values["nominal"] = np.clip(cset[corr].evaluate(nPU, "nominal"), 0, 10)
-        values["up"] = np.clip(cset[corr].evaluate(nPU, "up"), 0, 10)
-        values["down"] = np.clip(cset[corr].evaluate(nPU, "down"), 0, 10)
+            # https://twiki.cern.ch/twiki/bin/view/CMS/LumiRecommendationsRun3
+            values = {}
 
-        weights.add("pileup", values["nominal"], values["up"], values["down"])
+            #jin 20260406_v15check
+            print("here")
+
+            cset = correctionlib.CorrectionSet.from_file(get_pog_json("pileup", year))
+            corr = {
+                "2018": "Collisions18_UltraLegacy_goldenJSON",
+                "2022": "Collisions2022_355100_357900_eraBCD_GoldenJson",
+                "2022EE": "Collisions2022_359022_362760_eraEFG_GoldenJson",
+                "2023": "Collisions2023_366403_369802_eraBC_GoldenJson",
+                "2023BPix": "Collisions2023_369803_370790_eraD_GoldenJson",
+            }[year]
+            # evaluate and clip up to 10 to avoid large weights
+            values["nominal"] = np.clip(cset[corr].evaluate(nPU, "nominal"), 0, 10)
+            values["up"] = np.clip(cset[corr].evaluate(nPU, "up"), 0, 10)
+            values["down"] = np.clip(cset[corr].evaluate(nPU, "down"), 0, 10)
+
+            weights.add("pileup", values["nominal"], values["up"], values["down"])
 
 
 def get_vpt(genpart, check_offshell=False):
@@ -399,6 +426,8 @@ def get_jetveto_event(jets: JetArray, year: str):
 
     # correction: Non-zero value for (eta, phi) indicates that the region is vetoed
     cset = correctionlib.CorrectionSet.from_file(get_pog_json("jetveto", year))
+    #jin20260406
+    print(list(cset.keys()))
     j, nj = ak.flatten(jets), ak.num(jets)
 
     def get_veto(j, nj, csetstr):
@@ -412,6 +441,7 @@ def get_jetveto_event(jets: JetArray, year: str):
         "2022EE": "Summer22EE_23Sep2023_RunEFG_V1",
         "2023": "Summer23Prompt23_RunC_V1",
         "2023BPix": "Summer23BPixPrompt23_RunD_V1",
+        "2024": "Summer24Prompt24_RunBCDEFGHI_V1",
     }[year]
 
     jet_veto = get_veto(j, nj, corr_str) > 0
