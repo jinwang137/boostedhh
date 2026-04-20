@@ -20,7 +20,7 @@ from numpy.typing import ArrayLike
 from pandas import DataFrame
 
 from boostedhh import utils
-from boostedhh.hh_vars import LUMI, data_key, hbb_bg_keys
+from boostedhh.hh_vars import LUMI, data_key, hbb_bg_keys, years
 from boostedhh.utils import CUT_MAX_VAL
 
 plt.style.use(hep.style.CMS)
@@ -260,7 +260,7 @@ def add_cms_label(ax, year, data=True, label="Preliminary", loc=2, lumi=True):
             label,
             com=13.6,
             data=data,
-            lumi=f"{np.sum(list(LUMI.values())) / 1e3:.0f}" if lumi else None,
+            lumi=f"{np.sum([LUMI[year] for year in years]) / 1e3:.0f}" if lumi else None,
             year=None,
             ax=ax,
             loc=loc,
