@@ -245,6 +245,7 @@ for key, value in vbfhh.items():
         tkey_nounderscore = tkey.replace("-", "_")
         tvalue = value * br
         xsecs[tkey] = tvalue
+        xsecs[tkey_nounderscore] = tvalue  # 2023/2023BPix use underscores in dir names
         xsecs[f"{tkey}_LHEweights"] = tvalue
         xsecs[f"{tkey}_TuneCP5_13p6TeV_madgraph-pythia8"] = tvalue
         xsecs[f"{tkey_nounderscore}_TuneCP5_13p6TeV_madgraph-pythia8"] = tvalue

@@ -540,6 +540,16 @@ def load_sample(
             warnings.warn(f"No parquet directory for {load_sample}!", stacklevel=1)
             continue
 
+        # empty parquet directory (skimmer failed or produced no events)
+        parquet_files = list(parquet_path.glob("*.parquet")) if parquet_path.is_dir() else [parquet_path]
+        if not parquet_files:
+            warnings.warn(
+                f"Empty parquet directory for {load_sample}! Skimmer may have failed or produced no events. "
+                f"Re-run skimmer for this sample.",
+                stacklevel=1,
+            )
+            continue
+
         logger.debug(f"Loading {load_sample}")
         try:
             events = pd.read_parquet(parquet_path, filters=filters, columns=load_columns)
