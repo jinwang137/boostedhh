@@ -108,19 +108,17 @@ def add_pileup_weight(weights: Weights, year: str, nPU: np.ndarray, dataset: str
         if year == "2024":
             import json
             
-            # 直接从Golden JSON文件读取
-            golden_json_path = "/afs/cern.ch/user/j/jinwa/Cert_Collisions2024_378981_386951_Golden.json"  # 改成你的实际路径
+            # Read directly from the Golden JSON file
+            golden_json_path = "/afs/cern.ch/user/j/jinwa/Cert_Collisions2024_378981_386951_Golden.json"
             
-            # jin 调试信息
             print(f"Loading pileup from Golden JSON: {golden_json_path}")
             
-            # 对于2024，暂时使用nominal权重为1（如果Golden JSON中没有pileup信息）
+            # For 2024, temporarily use a nominal weight of 1 (if there is no pileup information in the Golden JSON).
             values = {}
             values["nominal"] = np.ones_like(nPU, dtype=float)
             values["up"] = np.ones_like(nPU, dtype=float)
             values["down"] = np.ones_like(nPU, dtype=float)
             
-            # jin 调试
             print(f"Using default pileup weights (all 1.0) for 2024")
             
             weights.add("pileup", values["nominal"], values["up"], values["down"])
@@ -129,10 +127,7 @@ def add_pileup_weight(weights: Weights, year: str, nPU: np.ndarray, dataset: str
 
             # https://twiki.cern.ch/twiki/bin/view/CMS/LumiRecommendationsRun3
             values = {}
-
-            #jin 20260406_v15check
-            print("here")
-
+            
             cset = correctionlib.CorrectionSet.from_file(get_pog_json("pileup", year))
             corr = {
                 "2018": "Collisions18_UltraLegacy_goldenJSON",
