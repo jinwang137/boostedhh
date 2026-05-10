@@ -20,7 +20,7 @@ from numpy.typing import ArrayLike
 from pandas import DataFrame
 
 from boostedhh import utils
-from boostedhh.hh_vars import LUMI, data_key, hbb_bg_keys
+from boostedhh.hh_vars import LUMI, data_key, hbb_bg_keys, years
 from boostedhh.utils import CUT_MAX_VAL
 
 plt.style.use(hep.style.CMS)
@@ -258,8 +258,9 @@ def add_cms_label(ax, year, data=True, label="Preliminary", loc=2, lumi=True):
     if year == "all":
         hep.cms.label(
             label,
+            com=13.6,
             data=data,
-            lumi=f"{np.sum(list(LUMI.values())) / 1e3:.0f}" if lumi else None,
+            lumi=f"{np.sum([LUMI[year] for year in years]) / 1e3:.0f}" if lumi else None,
             year=None,
             ax=ax,
             loc=loc,
@@ -267,6 +268,7 @@ def add_cms_label(ax, year, data=True, label="Preliminary", loc=2, lumi=True):
     else:
         hep.cms.label(
             label,
+            com=13.6,
             data=data,
             lumi=f"{LUMI[year] / 1e3:.0f}" if lumi else None,
             year=year,
@@ -1380,7 +1382,7 @@ def plot_hist(
     """
 
     hep.style.use("CMS")
-    colors = plt.cm.tab10.colors
+    colors = plt.cm.tab10.colors if len(data) < 10 else plt.cm.tab20.colors
     fig, ax = plt.subplots(figsize=(12, 9))
     hep.cms.label("Preliminary", data=True, lumi=lumi, year=year, com=com)
     if weights is not None:
