@@ -62,8 +62,7 @@ def jetid_v14(jets: ak.Array) -> tuple[ak.Array, ak.Array]:
 
 def jetid_v15(jets: ak.Array) -> tuple[ak.Array, ak.Array]:
     """
-    Jet ID fix for NanoAOD v14 copying
-    # https://gitlab.cern.ch/cms-jetmet/coordination/coordination/-/issues/117#note_8880788
+    # https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13p6TeV#Recommendations_for_the_13_6_AN1
     """
 
     jetidtight = (
