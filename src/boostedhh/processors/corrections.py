@@ -421,8 +421,6 @@ def get_jetveto_event(jets: JetArray, year: str):
 
     # correction: Non-zero value for (eta, phi) indicates that the region is vetoed
     cset = correctionlib.CorrectionSet.from_file(get_pog_json("jetveto", year))
-    #jin20260406
-    print(list(cset.keys()))
     j, nj = ak.flatten(jets), ak.num(jets)
 
     def get_veto(j, nj, csetstr):

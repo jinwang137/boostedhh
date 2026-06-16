@@ -23,7 +23,7 @@ LUMI = {
     "2017": 41480.0,
     "2016": 36330.0,
     "Run2": 137640.0,
-    "2024": 114440.0, #jin
+    "2024": 109950.0,
 }
 
 
@@ -195,23 +195,17 @@ samples_run3_sig = {
 
 bbtt_sigs = {
     "ggfbbtt": "GluGlutoHHto2B2Tau_kl-1p00_kt-1p00_c2-0p00",
-
-    # Todo: (only for 2024) Not all samples have been fully processed yet, so this is temporarily commented out
-    # If running 2022 + 2023, please uncomment.
-    # "ggfbbtt-kl0p00": "GluGlutoHHto2B2Tau_kl-0p00_kt-1p00_c2-0p00",
-    # "ggfbbtt-kl2p45": "GluGlutoHHto2B2Tau_kl-2p45_kt-1p00_c2-0p00",
-    # "ggfbbtt-kl5p00": "GluGlutoHHto2B2Tau_kl-5p00_kt-1p00_c2-0p00",
+    "ggfbbtt-kl0p00": "GluGlutoHHto2B2Tau_kl-0p00_kt-1p00_c2-0p00",
+    "ggfbbtt-kl2p45": "GluGlutoHHto2B2Tau_kl-2p45_kt-1p00_c2-0p00",
+    "ggfbbtt-kl5p00": "GluGlutoHHto2B2Tau_kl-5p00_kt-1p00_c2-0p00",
 
     "vbfbbtt": "VBFHHto2B2Tau_CV_1_C2V_1_C3_1",
     "vbfbbtt-k2v0": "VBFHHto2B2Tau_CV_1_C2V_0_C3_1",
     # BSM VBF samples: use regex [_-] to handle 2022/2022EE (hyphen) vs 2023/2023BPix (underscore) naming
-
-    # Todo: (only for 2024) Not all samples have been fully processed yet, so this is temporarily commented out
-    # If running 2022 + 2023, please uncomment.
-    # "vbfbbtt-kv1p74-k2v1p37-kl14p4": r"VBFHHto2B2Tau_CV[_-]1p74_C2V[_-]1p37_C3[_-]14p4",
-    # "vbfbbtt-kvm0p758-k2v1p44-klm19p3": r"VBFHHto2B2Tau_CV[_-]m0p758_C2V[_-]1p44_C3[_-]m19p3",
-    # "vbfbbtt-kvm0p962-k2v0p959-klm1p43": r"VBFHHto2B2Tau_CV[_-]m0p962_C2V[_-]0p959_C3[_-]m1p43",
-    # "vbfbbtt-kvm1p6-k2v2p72-klm1p36": r"VBFHHto2B2Tau_CV[_-]m1p60_C2V[_-]2p72_C3[_-]m1p36",
+    "vbfbbtt-kv1p74-k2v1p37-kl14p4": r"VBFHHto2B2Tau_CV[_-]1p74_C2V[_-]1p37_C3[_-]14p4",
+    "vbfbbtt-kvm0p758-k2v1p44-klm19p3": r"VBFHHto2B2Tau_CV[_-]m0p758_C2V[_-]1p44_C3[_-]m19p3",
+    "vbfbbtt-kvm0p962-k2v0p959-klm1p43": r"VBFHHto2B2Tau_CV[_-]m0p962_C2V[_-]0p959_C3[_-]m1p43",
+    "vbfbbtt-kvm1p6-k2v2p72-klm1p36": r"VBFHHto2B2Tau_CV[_-]m1p60_C2V[_-]2p72_C3[_-]m1p36",
 }
 
 samples_run3 = {
