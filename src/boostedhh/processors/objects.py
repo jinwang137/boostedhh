@@ -59,3 +59,32 @@ def jetid_v14(jets: ak.Array) -> tuple[ak.Array, ak.Array]:
     ) | ((np.abs(jets.eta) > 2.7) & jetidtight)
 
     return jetidtight, jetidtightlepveto
+
+def jetid_v15(jets: ak.Array) -> tuple[ak.Array, ak.Array]:
+    """
+    # https://twiki.cern.ch/twiki/bin/viewauth/CMS/JetID13p6TeV#Recommendations_for_the_13_6_AN1
+    """
+
+    jetidtight = (
+        (
+            (np.abs(jets.eta) <= 2.6)
+            & (jets.neHEF < 0.99)
+            & (jets.neEmEF < 0.9)
+            & ((jets.chMultiplicity + jets.neMultiplicity) > 1)
+            & (jets.chHEF > 0.01)
+            & (jets.chMultiplicity > 0)
+        )
+        | (
+            ((np.abs(jets.eta) > 2.6) & (np.abs(jets.eta) <= 2.7))
+            & (jets.neHEF < 0.90)
+            & (jets.neEmEF < 0.99)
+        )
+        | (((np.abs(jets.eta) > 2.7) & (np.abs(jets.eta) <= 3.0)) & (jets.neHEF < 0.99))
+        | ((np.abs(jets.eta) > 3.0) & (jets.neMultiplicity >= 2) & (jets.neEmEF < 0.4))
+    )
+
+    jetidtightlepveto = (
+        (np.abs(jets.eta) <= 2.7) & jetidtight & (jets.muEF < 0.8) & (jets.chEmEF < 0.8)
+    ) | ((np.abs(jets.eta) > 2.7) & jetidtight)
+
+    return jetidtight, jetidtightlepveto

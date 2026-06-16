@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from collections import OrderedDict
 
-years = ["2022", "2022EE", "2023", "2023BPix"]
+years = ["2022", "2022EE", "2023", "2023BPix", "2024"]
 
 # in pb^-1
 LUMI = {
@@ -23,6 +23,7 @@ LUMI = {
     "2017": 41480.0,
     "2016": 36330.0,
     "Run2": 137640.0,
+    "2024": 109950.0,
 }
 
 
@@ -197,6 +198,7 @@ bbtt_sigs = {
     "ggfbbtt-kl0p00": "GluGlutoHHto2B2Tau_kl-0p00_kt-1p00_c2-0p00",
     "ggfbbtt-kl2p45": "GluGlutoHHto2B2Tau_kl-2p45_kt-1p00_c2-0p00",
     "ggfbbtt-kl5p00": "GluGlutoHHto2B2Tau_kl-5p00_kt-1p00_c2-0p00",
+
     "vbfbbtt": "VBFHHto2B2Tau_CV_1_C2V_1_C3_1",
     "vbfbbtt-k2v0": "VBFHHto2B2Tau_CV_1_C2V_0_C3_1",
     # BSM VBF samples: use regex [_-] to handle 2022/2022EE (hyphen) vs 2023/2023BPix (underscore) naming
